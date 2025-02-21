@@ -2,8 +2,10 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "static/images"
-public_folder: "/images"
+media_folder: "static/img"
+public_folder: "/img"
+
+publish_mode: editorial_workflow
 
 collections:
   - name: "resources"
@@ -12,24 +14,27 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - {label: "ID", name: "id", widget: "string"}
-      - {label: "Titre", name: "title", widget: "string"}
-      - {label: "Date de publication", name: "publication_date", widget: "datetime"}
-      - label: "Auteurs"
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publication date", name: "publication_date", widget: "datetime"}
+      - label: "Authors"
         name: "authors"
         widget: "list"
         fields:
-          - {label: "Nom", name: "name", widget: "string"}
-          - {label: "Organisation", name: "organization", widget: "string"}
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Organization", name: "organization", widget: "string"}
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        fields:
+          - {label: "ID", name: "id", widget: "string"}
+          - {label: "Parent", name: "parent", widget: "string"}
       - {label: "Tags", name: "tags", widget: "list"}
-      - {label: "Type de ressource", name: "resource_type", widget: "select", options: ["research_paper", "case_study", "guide", "tool", "presentation"]}
-      - {label: "Résumé", name: "summary", widget: "text"}
-      - {label: "Contenu", name: "content", widget: "markdown"}
-      - {label: "URL source", name: "source_url", widget: "string"}
-      - label: "Métadonnées"
+      - {label: "Resource type", name: "resource_type", widget: "select", options: ["research_paper", "case_study", "guide", "tool", "presentation"]}
+      - {label: "Summary", name: "summary", widget: "text"}
+      - {label: "Source URL", name: "source_url", widget: "string"}
+      - {label: "Source Document", name: "source_document", widget: "string"}
+      - label: "Metadata"
         name: "metadata"
         widget: "object"
         fields:
-          - {label: "Temps de lecture (minutes)", name: "reading_time", widget: "number"}
-          - {label: "Niveau", name: "difficulty_level", widget: "select", options: ["beginner", "intermediate", "advanced"]}
           - {label: "Langue", name: "language", widget: "select", options: ["fr", "en", "es", "de"]} 
