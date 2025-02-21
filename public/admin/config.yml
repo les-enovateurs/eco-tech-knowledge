@@ -1,6 +1,3 @@
-# Use Netlify backend without account
-# local_backend: true
-
 backend:
   name: git-gateway
   branch: main
@@ -8,15 +5,7 @@ backend:
 media_folder: "static/img"
 public_folder: "/img"
 
-patterns:
-  pattern_url: &pattern_url
-    - "^(https?:\/\/)"
-    - "field must contain a valid url"
-    
-
-slug:
-  encoding: ascii
-  clean_accents: true
+publish_mode: editorial_workflow
 
 collections:
   - name: "resources"
@@ -33,13 +22,19 @@ collections:
         fields:
           - {label: "Name", name: "name", widget: "string"}
           - {label: "Organization", name: "organization", widget: "string"}
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        fields:
+          - {label: "ID", name: "id", widget: "string"}
+          - {label: "Parent", name: "parent", widget: "string"}
       - {label: "Tags", name: "tags", widget: "list"}
       - {label: "Resource type", name: "resource_type", widget: "select", options: ["research_paper", "case_study", "guide", "tool", "presentation"]}
       - {label: "Summary", name: "summary", widget: "text"}
-      - {label: "Source URL", name: "source_url", widget: "string", pattern: *pattern_url}
-      - {label: "Source document", name: "source_document", widget: "string", pattern: *pattern_url}
-      - label: "Métadonnées"
+      - {label: "Source URL", name: "source_url", widget: "string"}
+      - {label: "Source Document", name: "source_document", widget: "string"}
+      - label: "Metadata"
         name: "metadata"
         widget: "object"
         fields:
-          - {label: "Language", name: "language", widget: "select", options: ["fr", "en", "es", "de"]} 
+          - {label: "Langue", name: "language", widget: "select", options: ["fr", "en", "es", "de"]} 
