@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "hugo serve",
-    "build": "hugo"
+    "build": "hugo --gc --minify"
   },
   "dependencies": {
     "@netlify/functions": "^2.0.0",

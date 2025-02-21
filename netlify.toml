@@ -1,8 +1,11 @@
 [build]
-  command = "hugo"
+  command = "hugo --gc --minify"
   publish = "public"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[build.environment]
+HUGO_VERSION = "0.144.2"
