@@ -1,0 +1,35 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "static/images"
+public_folder: "/images"
+
+collections:
+  - name: "resources"
+    label: "Ressources"
+    folder: "content/resources"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "ID", name: "id", widget: "string"}
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Date de publication", name: "publication_date", widget: "datetime"}
+      - label: "Auteurs"
+        name: "authors"
+        widget: "list"
+        fields:
+          - {label: "Nom", name: "name", widget: "string"}
+          - {label: "Organisation", name: "organization", widget: "string"}
+      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Type de ressource", name: "resource_type", widget: "select", options: ["research_paper", "case_study", "guide", "tool", "presentation"]}
+      - {label: "Résumé", name: "summary", widget: "text"}
+      - {label: "Contenu", name: "content", widget: "markdown"}
+      - {label: "URL source", name: "source_url", widget: "string"}
+      - label: "Métadonnées"
+        name: "metadata"
+        widget: "object"
+        fields:
+          - {label: "Temps de lecture (minutes)", name: "reading_time", widget: "number"}
+          - {label: "Niveau", name: "difficulty_level", widget: "select", options: ["beginner", "intermediate", "advanced"]}
+          - {label: "Langue", name: "language", widget: "select", options: ["fr", "en", "es", "de"]} 
