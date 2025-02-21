@@ -7,34 +7,105 @@ public_folder: "/img"
 
 publish_mode: editorial_workflow
 
+# To use the local backend, uncomment the following line
+local_backend: true
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+
+patterns:
+  pattern_url: &pattern_url
+    - "^(https?:\/\/)"
+    - "url is not valid"
+
 collections:
+  - name: "organizations"
+    label: "Organizations"
+    folder: "content/organizations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string", required: true}
+      - {
+          label: "Slug", 
+          name: "slug", 
+          widget: "string", 
+          required: true,
+          pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Lowercase letters, numbers, and hyphens only"],
+          default: "{{name}}",
+          hint: "Will be automatically generated from the name if left empty"
+        }
+      - {label: "URL", name: "url", widget: "string", required: false}
+  - name: "categories"
+    label: "Categories"
+    folder: "content/categories"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string", required: true}
+      - {
+          label: "Slug", 
+          name: "slug", 
+          widget: "string", 
+          required: true,
+          pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Lowercase letters, numbers, and hyphens only"],
+          default: "{{name}}",
+          hint: "Will be automatically generated from the name if left empty"
+        }
+      - {label: "Parent Category", name: "parent", widget: "relation", collection: "categories", search_fields: ["name", "slug"], value_field: "slug", required: false}
   - name: "resources"
     label: "Ressources"
     folder: "content/resources"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publication date", name: "publication_date", widget: "datetime"}
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Publication date", name: "publication_date", widget: "datetime", format: "YYYY-MM-DD", time_format: false, required: true}
       - label: "Authors"
         name: "authors"
         widget: "list"
+        required: true
         fields:
           - {label: "Name", name: "name", widget: "string"}
-          - {label: "Organization", name: "organization", widget: "string"}
+          - {
+              label: "Organization", 
+              name: "organization", 
+              widget: "relation",
+              collection: "organizations",
+              search_fields: ["name"],
+              value_field: "slug",
+              display_fields: ["name"],
+              required: true
+            }
       - label: "Categories"
         name: "categories"
-        widget: "list"
-        fields:
-          - {label: "ID", name: "id", widget: "string"}
-          - {label: "Parent", name: "parent", widget: "string"}
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["name"]
+        value_field: "slug"
+        display_fields: ["name"]
+        multiple: true
+        required: true
       - {label: "Tags", name: "tags", widget: "list"}
-      - {label: "Resource type", name: "resource_type", widget: "select", options: ["research_paper", "case_study", "guide", "tool", "presentation"]}
-      - {label: "Summary", name: "summary", widget: "text"}
-      - {label: "Source URL", name: "source_url", widget: "string"}
-      - {label: "Source Document", name: "source_document", widget: "string"}
+      - {label: "Resource type", name: "resource_type", widget: "select", options: ["research_paper", "case_study", "guide", "tool", "presentation"], required: true}
+      - {label: "Summary", name: "summary", widget: "text", required: true}
+      - {label: "Content", name: "content", widget: "markdown"}
+      - {label: "Source URL", name: "source_url", widget: "string", pattern: *pattern_url, required: true}
+      - {label: "Source Document", name: "source_document", widget: "string", pattern: *pattern_url}
+      - label: "Source Organizations"
+        name: "source_organizations"
+        widget: "relation"
+        collection: "organizations"
+        search_fields: ["name"]
+        value_field: "slug"
+        display_fields: ["name"]
+        multiple: true
+        required: true
       - label: "Metadata"
         name: "metadata"
         widget: "object"
+        required: true
         fields:
           - {label: "Langue", name: "language", widget: "select", options: ["fr", "en", "es", "de"]} 
