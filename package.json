@@ -2,8 +2,8 @@
   "name": "knowledge-hub",
   "version": "1.0.0",
   "scripts": {
-    "dev": "netlify dev",
-    "build": "netlify build"
+    "dev": "hugo serve",
+    "build": "hugo"
   },
   "dependencies": {
     "@netlify/functions": "^2.0.0",

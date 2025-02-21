@@ -1,3 +1,6 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+baseURL = "/"
+languageCode = "fr-fr"
+title = "Eco Tech Knowledge"
+
+# Si vous utilisez un thème, décommentez et ajoutez son nom
+# theme = "nom-du-theme"
