@@ -34,7 +34,6 @@ collections:
           widget: "string", 
           required: false, 
           pattern: *pattern_url,
-          hint: "Enter domain without http:// or https:// (e.g., resilio-solutions.com)"
         }
   - name: "categories"
     label: "Categories"
