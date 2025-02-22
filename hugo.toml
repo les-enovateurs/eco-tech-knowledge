@@ -1,5 +1,5 @@
 baseURL = "/"
-languageCode = "fr-fr"
+languageCode = "en-us"
 title = "Eco Tech Knowledge"
 
 theme = "PaperMod"

@@ -1,82 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Eco Tech Knowledge</title>
-    <link>//localhost:1313/</link>
-    <description>Recent content on Eco Tech Knowledge</description>
+    <title>Resources on Eco Tech Knowledge</title>
+    <link>//localhost:1313/resources/</link>
+    <description>Recent content in Resources on Eco Tech Knowledge</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en-us</language>
-    <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title></title>
-      <link>//localhost:1313/categories/ethical/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/categories/ethical/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/categories/greenhouse-gas-emissions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/categories/greenhouse-gas-emissions/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/categories/inclusive/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/categories/inclusive/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/categories/resource-depletion/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/categories/resource-depletion/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/categories/sustainable/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/categories/sustainable/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/organizations/agile-partner/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/organizations/agile-partner/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/organizations/association-greenit/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/organizations/association-greenit/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/organizations/capgemini-invent/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/organizations/capgemini-invent/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/organizations/innov-iction/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/organizations/innov-iction/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>//localhost:1313/organizations/resilio/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/organizations/resilio/</guid>
-      <description></description>
-    </item>
+    <atom:link href="//localhost:1313/resources/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exploring the sustainable scaling of AI dilemma: A projective study of corporations&#39; AI environmental impacts</title>
       <link>//localhost:1313/resources/2025-02-22-exploring-the-sustainable-scaling-of-ai-dilemma-a-projective-study-of-corporations-ai-environmental-impacts-1/</link>

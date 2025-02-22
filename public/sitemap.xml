@@ -4,7 +4,45 @@
   <url>
     <loc>//localhost:1313/</loc>
   </url><url>
+    <loc>//localhost:1313/categories/ethical/</loc>
+  </url><url>
+    <loc>//localhost:1313/categories/greenhouse-gas-emissions/</loc>
+  </url><url>
+    <loc>//localhost:1313/categories/inclusive/</loc>
+  </url><url>
+    <loc>//localhost:1313/categories/resource-depletion/</loc>
+  </url><url>
+    <loc>//localhost:1313/categories/sustainable/</loc>
+  </url><url>
+    <loc>//localhost:1313/organizations/agile-partner/</loc>
+  </url><url>
+    <loc>//localhost:1313/organizations/association-greenit/</loc>
+  </url><url>
+    <loc>//localhost:1313/organizations/capgemini-invent/</loc>
+  </url><url>
+    <loc>//localhost:1313/organizations/innov-iction/</loc>
+  </url><url>
+    <loc>//localhost:1313/organizations/resilio/</loc>
+  </url><url>
     <loc>//localhost:1313/categories/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-exploring-the-sustainable-scaling-of-ai-dilemma-a-projective-study-of-corporations-ai-environmental-impacts-1/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-exploring-the-sustainable-scaling-of-ai-dilemma-a-projective-study-of-corporations-ai-environmental-impacts-2/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-exploring-the-sustainable-scaling-of-ai-dilemma-a-projective-study-of-corporations-ai-environmental-impacts/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-impacts-environnementaux-du-numerique-dans-le-monde-2025/</loc>
+  </url><url>
+    <loc>//localhost:1313/organizations/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-publication_date-1/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-publication_date-2/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/2025-02-22-publication_date/</loc>
+  </url><url>
+    <loc>//localhost:1313/resources/</loc>
   </url><url>
     <loc>//localhost:1313/tags/</loc>
   </url>
