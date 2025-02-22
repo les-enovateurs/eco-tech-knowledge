@@ -1,8 +1,6 @@
 backend:
   name: git-gateway
   branch: main
-  squash_merges: false
-  show_preview_links: false
 
 media_folder: "static/img"
 public_folder: "/img"
@@ -10,7 +8,7 @@ public_folder: "/img"
 publish_mode: editorial_workflow
 
 # To use the local backend, uncomment the following line
-local_backend: true
+# local_backend: true
 
 slug:
   encoding: ascii
@@ -86,7 +84,7 @@ collections:
           options: ["research_paper", "study", "guide", "tool", "presentation"], 
           required: false
         }
-      - {label: "Summary", name: "summary", widget: "text", required: true}
+      - {label: "Summary", name: "summary", widget: "markdown", required: true}
       - {label: "Content", name: "content", widget: "markdown", required: false}
       - {label: "Source URL", name: "source_url", widget: "string", pattern: *pattern_url, required: true}
       - {label: "Source Document", name: "source_document", widget: "string", pattern: *pattern_url, required: false}
