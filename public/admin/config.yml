@@ -1,6 +1,8 @@
 backend:
   name: git-gateway
   branch: main
+  squash_merges: false
+  show_preview_links: false
 
 media_folder: "static/img"
 public_folder: "/img"
@@ -8,7 +10,7 @@ public_folder: "/img"
 publish_mode: editorial_workflow
 
 # To use the local backend, uncomment the following line
-# local_backend: true
+local_backend: true
 
 slug:
   encoding: ascii
@@ -34,7 +36,6 @@ collections:
           widget: "string", 
           required: false, 
           pattern: *pattern_url,
-          hint: "Enter domain without http:// or https:// (e.g., resilio-solutions.com)"
         }
   - name: "categories"
     label: "Categories"
