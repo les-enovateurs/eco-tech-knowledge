@@ -1,5 +1,5 @@
 [build]
-  command = "hugo --gc --minify"
+  command = "HUGO_BASEURL=https://ecotechknowledge.netlify.app/ hugo --gc --minify"
   publish = "public"
 
 [build.environment]

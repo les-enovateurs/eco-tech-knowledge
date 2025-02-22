@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "hugo serve",
-    "build": "HUGO_BASEURL=https://ecotechknowledge.netlify.app/ hugo --gc --minify",
-    "local-build": "HUGO_BASEURL=http://localhost:1313/ hugo --gc --minify"
+    "build": "HUGO_BASEURL=http://localhost:1313/ hugo --gc --minify"
   },
   "dependencies": {
     "@netlify/functions": "^2.0.0",
