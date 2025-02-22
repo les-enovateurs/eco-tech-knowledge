@@ -5,6 +5,9 @@ backend:
 media_folder: "static/img"
 public_folder: "/img"
 
+show_preview_links: false
+squash_merges: false
+
 publish_mode: editorial_workflow
 
 # To use the local backend, uncomment the following line
