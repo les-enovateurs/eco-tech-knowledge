@@ -36,9 +36,6 @@ menus:
     - name: "Categories"
       pageRef: "/categories"
       weight: 30
-    - name: "Terms"
-      pageRef: "/terms"
-      weight: 10
     - name: "Privacy"
       pageRef: "/privacy"
       weight: 20
@@ -48,8 +45,6 @@ params:
   defaultTheme: "light"
 
   ShowRssButtonInSectionTermList: true
-
-  homeInfoParams: true
 
   assets:
     favicon: "<link / abs url>"
