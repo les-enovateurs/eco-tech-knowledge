@@ -1,4 +1,4 @@
 ---
-name: Sopht
+title: Sopht
 website: https://sopht.com/
 ---

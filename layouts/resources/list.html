@@ -91,9 +91,24 @@
       </svg>
       <time datetime="{{ .Params.publication_date | dateFormat "2006-01-02" }}">{{ .Params.publication_date | dateFormat "January 2, 2006" }}</time>
 
+       <!-- Source organization -->
+     {{ with .Params.source_organizations }}
+       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+       </svg>
+       Conducted by :
+       {{ range . }}
+         {{ with $.Site.GetPage (printf "/organizations/%s" .) }}
+         <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}">
+          {{ .Title }}
+         </a>
+         {{ end }}
+       {{ end }}
+     {{ end }}
+
      <!-- Categories -->
      {{ with .Params.categories }}
-       <svg class="category-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
              <line x1="7" y1="7" x2="7.01" y2="7"/>
            </svg>
@@ -105,10 +120,11 @@
           {{ end }}
        {{ end }}
      {{ end }}
+    </div>
 
+    <div class="entry-metadata">
       <!-- Tags -->
       {{ with .Params.tags }}
-        -
         {{ range . }}
           {{ with $.Site.GetPage (printf "/tags/%s" .) }}
           <a href="{{ .RelPermalink }}">
@@ -117,8 +133,8 @@
           {{ end }}
         {{ end }}
       {{ end }}
-    </div>
 
+      </div>
     
     
     <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>

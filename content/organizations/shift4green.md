@@ -1,3 +1,0 @@
----
-name: Shift4Green
----

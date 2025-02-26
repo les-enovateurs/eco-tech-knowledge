@@ -1,4 +1,4 @@
 ---
-name: GreenScale
+title: GreenScale
 website: https://greenscale.fr/
 ---
