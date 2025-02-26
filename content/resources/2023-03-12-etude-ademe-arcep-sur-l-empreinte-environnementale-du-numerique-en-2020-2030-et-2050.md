@@ -3,27 +3,27 @@ title: Etude ADEME – Arcep sur l’empreinte environnementale du numérique en
   2020, 2030 et 2050
 publication_date: 2023-03-12
 authors:
-  - name: Erwann Fangeat
+  - title: Erwann Fangeat
     organization: ademe/_index
-  - name: Raphaël Guastavi
+  - title: Raphaël Guastavi
     organization: ademe/_index
-  - name: Bruno Lafitte
+  - title: Bruno Lafitte
     organization: ademe/_index
-  - name: David Marchal
+  - title: David Marchal
     organization: ademe/_index
-  - name: Ahmed Haddad
+  - title: Ahmed Haddad
     organization: arcep/_index
-  - name: Charles Joudon-Watteau
+  - title: Charles Joudon-Watteau
     organization: arcep/_index
-  - name: Edouard Dolley
+  - title: Edouard Dolley
     organization: arcep/_index
-  - name: Adrien Haidar
+  - title: Adrien Haidar
     organization: arcep/_index
-  - name: Patrick Lagrange
+  - title: Patrick Lagrange
     organization: arcep/_index
-  - name: Franck Tarrier
+  - title: Franck Tarrier
     organization: arcep/_index
-  - name: Anne Yvrande-Billon
+  - title: Anne Yvrande-Billon
     organization: arcep/_index
 categories:
   - sustainable/_index

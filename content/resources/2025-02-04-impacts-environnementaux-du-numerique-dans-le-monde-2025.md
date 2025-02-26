@@ -2,17 +2,17 @@
 title: Impacts environnementaux du numérique dans le monde 2025
 publication_date: 2025-02-04
 authors:
-  - name: Louise AUBET
+  - title: Louise AUBET
     organization: resilio/_index
-  - name: Sylvain Chery
+  - title: Sylvain Chery
     organization: agile-partner/_index
-  - name: Auban DERREUMAUX
+  - title: Auban DERREUMAUX
     organization: innov-iction/_index
-  - name: Lorraine DE MONTENAY
+  - title: Lorraine DE MONTENAY
     organization: null
-  - name: Brice PASIAN
+  - title: Brice PASIAN
     organization: null
-  - name: Anne RABOT
+  - title: Anne RABOT
     organization: resilio/_index
 categories:
   - greenhouse-gas-emissions/_index

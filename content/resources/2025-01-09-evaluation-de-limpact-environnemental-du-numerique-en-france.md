@@ -2,13 +2,13 @@
 title: Evaluation de l'impact environnemental du numérique en France
 publication_date: 2025-01-09
 authors:
-  - name: Thomas BRILLAND
+  - title: Thomas BRILLAND
     organization: ademe/_index
-  - name: Erwann FANGEAT
+  - title: Erwann FANGEAT
     organization: ademe/_index
-  - name: Julia MEYER
+  - title: Julia MEYER
     organization: ademe/_index
-  - name: Mathieu WELLHOFF
+  - title: Mathieu WELLHOFF
     organization: ademe/_index
 categories:
   - sustainable/_index
