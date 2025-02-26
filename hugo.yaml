@@ -1,0 +1,85 @@
+baseURL: "/"
+languageCode: "en-us"
+title: "Eco Tech Knowledge"
+enableRobotsTXT: true
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+theme: "PaperModCustom"
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+taxonomies:
+  category: "categories"
+  tag: "tags"
+  organization: "organizations"
+  resource_type: "resource_types"
+  author: "authors"
+  source_organization: "source_organizations"
+  language: "languages"
+
+menus:
+  main:
+    - name: "Home"
+      pageRef: "/"
+      weight: 10
+    - name: "Resources"
+      pageRef: "/resources"
+      weight: 20
+    - name: "Search"
+      url: "/search"
+      weight: 30
+    - name: "Login/Register"
+      url: "/admin"
+      weight: 40
+  footer:
+    - name: "Organizations"
+      pageRef: "/organizations"
+      weight: 30
+    - name: "Categories"
+      pageRef: "/categories"
+      weight: 30
+    - name: "Privacy"
+      pageRef: "/privacy"
+      weight: 20
+
+params:
+  disableThemeToggle: true
+  defaultTheme: "light"
+
+  ShowRssButtonInSectionTermList: true
+
+  assets:
+    favicon: "<link / abs url>"
+    favicon16x16: "<link / abs url>"
+    favicon32x32: "<link / abs url>"
+    apple_touch_icon: "<link / abs url>"
+    safari_pinned_tab: "<link / abs url>"
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+  
+  editPost:
+    URL: "https://github.com/les-enovateurs/eco-tech-knowledge/tree/main/content"
+    Text: "Suggest Changes"
+    appendFilePath: true 
+
+  socialIcons: # optional
+    - name: "mastodon"
+      url: "https://mastodon.social/@enovateurs_media"
+    - name: "github"
+      url: "https://github.com/les-enovateurs"
+    - name: "linkedin"
+      url: "https://www.linkedin.com/company/les-enovateurs/"

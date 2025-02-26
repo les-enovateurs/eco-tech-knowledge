@@ -3,34 +3,32 @@ title: Etude ADEME – Arcep sur l’empreinte environnementale du numérique en
   2020, 2030 et 2050
 publication_date: 2023-03-12
 authors:
-  - name: Erwann Fangeat
-    organization: ademe
-  - name: Raphaël Guastavi
-    organization: ademe
-  - name: Bruno Lafitte
-    organization: ademe
-  - name: David Marchal
-    organization: ademe
-  - name: Ahmed Haddad
-    organization: arcep
-  - name: Charles Joudon-Watteau
-    organization: arcep
-  - name: Edouard Dolley
-    organization: arcep
-  - name: Adrien Haidar
-    organization: arcep
-  - name: Patrick Lagrange
-    organization: arcep
-  - name: Franck Tarrier
-    organization: arcep
-  - name: Anne Yvrande-Billon
-    organization: arcep
+  - title: Erwann Fangeat
+    organization: ademe/_index
+  - title: Raphaël Guastavi
+    organization: ademe/_index
+  - title: Bruno Lafitte
+    organization: ademe/_index
+  - title: David Marchal
+    organization: ademe/_index
+  - title: Ahmed Haddad
+    organization: arcep/_index
+  - title: Charles Joudon-Watteau
+    organization: arcep/_index
+  - title: Edouard Dolley
+    organization: arcep/_index
+  - title: Adrien Haidar
+    organization: arcep/_index
+  - title: Patrick Lagrange
+    organization: arcep/_index
+  - title: Franck Tarrier
+    organization: arcep/_index
+  - title: Anne Yvrande-Billon
+    organization: arcep/_index
 categories:
-  - sustainable
+  - sustainable/_index
 resource_type: study
 summary: >
-  
-
   La dernière décennie a vu s’accélérer l’essor de nouvelles technologies qui ont marqué le paysage numérique de leur apport en rapidité, qualité et connectivité pour les contenus multimédias et les outils de communication. Alors que de nombreux domaines d’activité ont su profiter de ces nombreuses innovations (industrie 4.0, ecommerce, télécommunications etc.) pour se développer, cette croissance a toujours été couplée avec une augmentation significative des pressions sur l’environnement et les ressources naturelles.
 
 
@@ -38,8 +36,7 @@ summary: >
 source_url: https://www.arcep.fr/la-regulation/grands-dossiers-thematiques-transverses/lempreinte-environnementale-du-numerique/etude-ademe-arcep-empreinte-environnemental-numerique-2020-2030-2050.html
 source_document: https://www.arcep.fr/uploads/tx_gspublication/etude-prospective-2030-2050_mars2023.pdf
 source_organizations:
-  - ademe
-  - arcep
-metadata:
-  language: fr
+  - ademe/_index
+  - arcep/_index
+language: fr
 ---

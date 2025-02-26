@@ -24,10 +24,12 @@ collections:
   - name: "organizations"
     label: "Organizations"
     folder: "content/organizations"
-    identifier_field: name
+    identifier_field: title
+    slug: "{{slug}}"
+    path: "{{slug}}/_index"
     create: true
     fields:
-      - {label: "Name", name: "name", widget: "string", required: true}
+      - {label: "Name", name: "title", widget: "string", required: true}
       - {
           label: "Website", 
           name: "website", 
@@ -38,11 +40,13 @@ collections:
   - name: "categories"
     label: "Categories"
     folder: "content/categories"
-    identifier_field: name
+    identifier_field: title
+    slug: "{{slug}}"
+    path: "{{slug}}/_index"
     create: true
     fields:
-      - {label: "Name", name: "name", widget: "string", required: true}
-      - {label: "Parent Category", name: "parent", widget: "relation", collection: "categories", search_fields: ["name"], value_field: "name", required: false}
+      - {label: "Name", name: "title", widget: "string", required: true}
+      - {label: "Parent Category", name: "parent", widget: "relation", collection: "categories", search_fields: ["title"], value_field: "title", required: false}
   - name: "resources"
     label: "Ressources"
     folder: "content/resources"
@@ -56,27 +60,27 @@ collections:
         widget: "list"
         required: true
         fields:
-          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Name", name: "title", widget: "string"}
           - {
               label: "Organization", 
               name: "organization", 
               widget: "relation",
               collection: "organizations",
-              search_fields: ["name"],
+              search_fields: ["title"],
               value_field: "{{slug}}",
-              display_fields: ["name"],
+              display_fields: ["title"],
               required: false
             }
       - label: "Categories"
         name: "categories"
         widget: "relation"
         collection: "categories"
-        search_fields: ["name"]
+        search_fields: ["title"]
         value_field: "{{slug}}"
-        display_fields: ["name"]
+        display_fields: ["title"]
         multiple: true
         required: true
-      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Tags - separate by a comma ,", name: "tags", widget: "list", required: false}
       - {
           label: "Resource type", 
           name: "resource_type", 
@@ -92,14 +96,12 @@ collections:
         name: "source_organizations"
         widget: "relation"
         collection: "organizations"
-        search_fields: ["name"]
+        search_fields: ["title"]
         value_field: "{{slug}}"
-        display_fields: ["name"]
+        display_fields: ["title"]
         multiple: true
         required: false
-      - label: "Metadata"
-        name: "metadata"
-        widget: "object"
-        required: true
-        fields:
-          - {label: "Langue", name: "language", widget: "select", options: ["fr", "en", "es", "de"]} 
+      - label: "Langue"
+        name: "language"
+        widget: "select"
+        options: ["fr", "en", "es", "de"]

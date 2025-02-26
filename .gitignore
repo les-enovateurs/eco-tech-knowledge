@@ -5,3 +5,8 @@ node_modules
 
 public/
 !public/admin/
+
+.DS_Store
+.hugo_build.lock
+PaperMod/
+PaperMod.zip

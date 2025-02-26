@@ -1,5 +1,5 @@
 [build]
-  command = "HUGO_BASEURL=https://knowledge.les-enovateurs.com/ hugo --gc --minify"
+  command = "HUGO_BASEURL=https://knowledge.les-enovateurs.com/ HUGO_ENV=production hugo --gc --minify"
   publish = "public"
 
 [build.environment]
