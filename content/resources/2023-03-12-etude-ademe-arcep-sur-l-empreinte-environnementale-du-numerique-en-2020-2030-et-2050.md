@@ -4,33 +4,31 @@ title: Etude ADEME – Arcep sur l’empreinte environnementale du numérique en
 publication_date: 2023-03-12
 authors:
   - name: Erwann Fangeat
-    organization: ademe
+    organization: ademe/_index
   - name: Raphaël Guastavi
-    organization: ademe
+    organization: ademe/_index
   - name: Bruno Lafitte
-    organization: ademe
+    organization: ademe/_index
   - name: David Marchal
-    organization: ademe
+    organization: ademe/_index
   - name: Ahmed Haddad
-    organization: arcep
+    organization: arcep/_index
   - name: Charles Joudon-Watteau
-    organization: arcep
+    organization: arcep/_index
   - name: Edouard Dolley
-    organization: arcep
+    organization: arcep/_index
   - name: Adrien Haidar
-    organization: arcep
+    organization: arcep/_index
   - name: Patrick Lagrange
-    organization: arcep
+    organization: arcep/_index
   - name: Franck Tarrier
-    organization: arcep
+    organization: arcep/_index
   - name: Anne Yvrande-Billon
-    organization: arcep
+    organization: arcep/_index
 categories:
-  - sustainable
+  - sustainable/_index
 resource_type: study
 summary: >
-  
-
   La dernière décennie a vu s’accélérer l’essor de nouvelles technologies qui ont marqué le paysage numérique de leur apport en rapidité, qualité et connectivité pour les contenus multimédias et les outils de communication. Alors que de nombreux domaines d’activité ont su profiter de ces nombreuses innovations (industrie 4.0, ecommerce, télécommunications etc.) pour se développer, cette croissance a toujours été couplée avec une augmentation significative des pressions sur l’environnement et les ressources naturelles.
 
 
@@ -38,8 +36,7 @@ summary: >
 source_url: https://www.arcep.fr/la-regulation/grands-dossiers-thematiques-transverses/lempreinte-environnementale-du-numerique/etude-ademe-arcep-empreinte-environnemental-numerique-2020-2030-2050.html
 source_document: https://www.arcep.fr/uploads/tx_gspublication/etude-prospective-2030-2050_mars2023.pdf
 source_organizations:
-  - ademe
-  - arcep
-metadata:
-  language: fr
+  - ademe/_index
+  - arcep/_index
+language: fr
 ---

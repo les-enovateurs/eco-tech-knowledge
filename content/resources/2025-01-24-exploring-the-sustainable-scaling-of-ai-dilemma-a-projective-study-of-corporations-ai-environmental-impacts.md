@@ -4,20 +4,20 @@ title: "Exploring the sustainable scaling of AI dilemma: A projective study of
 publication_date: 2025-01-24
 authors:
   - name: Clément Desroches
-    organization: capgemini-invent
+    organization: capgemini-invent/_index
   - name: Martin Chauvin
-    organization: capgemini-invent
+    organization: capgemini-invent/_index
   - name: Louis Ladan
-    organization: capgemini-invent
+    organization: capgemini-invent/_index
   - name: Caroline Vateau
-    organization: capgemini-invent
+    organization: capgemini-invent/_index
   - name: Simon Gosset
-    organization: capgemini-invent
+    organization: capgemini-invent/_index
   - name: Philippe Cordier
-    organization: capgemini-invent
+    organization: capgemini-invent/_index
 categories:
-  - greenhouse-gas-emissions
-  - sustainable
+  - greenhouse-gas-emissions/_index
+  - sustainable/_index
 resource_type: research_paper
 summary: >-
   The rapid growth of artificial intelligence (AI), particularly Large Language
@@ -35,7 +35,6 @@ summary: >-
 source_url: https://arxiv.org/abs/2501.14334
 source_document: https://arxiv.org/pdf/2501.14334
 source_organizations:
-  - capgemini-invent
-metadata:
-  language: en
+  - capgemini-invent/_index
+language: en
 ---

@@ -3,15 +3,15 @@ title: Evaluation de l'impact environnemental du numérique en France
 publication_date: 2025-01-09
 authors:
   - name: Thomas BRILLAND
-    organization: ademe
+    organization: ademe/_index
   - name: Erwann FANGEAT
-    organization: ademe
+    organization: ademe/_index
   - name: Julia MEYER
-    organization: ademe
+    organization: ademe/_index
   - name: Mathieu WELLHOFF
-    organization: ademe
+    organization: ademe/_index
 categories:
-  - sustainable
+  - sustainable/_index
 resource_type: study
 summary: Cette étude vise à mettre à jour les données de l'étude menée avec
   l'Arcep en 2020 sur l'évaluation de l'impact environnemental du numérique en
@@ -25,7 +25,6 @@ summary: Cette étude vise à mettre à jour les données de l'étude menée ave
 source_url: https://librairie.ademe.fr/changement-climatique/7880-evaluation-de-l-impact-environnemental-du-numerique-en-france.html
 source_document: https://ecoresponsable.numerique.gouv.fr/docs/2024/etude-ademe-impacts-environnementaux-numerique.pdf
 source_organizations:
-  - ademe
-metadata:
-  language: fr
+  - ademe/_index
+language: fr
 ---

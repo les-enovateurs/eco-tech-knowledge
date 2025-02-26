@@ -15,6 +15,15 @@ outputs:
     - RSS
     - JSON
 
+taxonomies:
+  category: "categories"
+  tag: "tags"
+  organization: "organizations"
+  resource_type: "resource_types"
+  author: "authors"
+  source_organization: "source_organizations"
+  language: "languages"
+
 menus:
   main:
     - name: "Home"
