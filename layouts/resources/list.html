@@ -97,13 +97,16 @@
          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
        </svg>
        Conducted by :
-       {{ range . }}
-         {{ with $.Site.GetPage (printf "/organizations/%s" .) }}
-         <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}">
-          {{ .Title }}
-         </a>
-         {{ end }}
-       {{ end }}
+       <div>
+          {{ range $index, $element := . }}
+            {{ with $.Site.GetPage (printf "/organizations/%s" $element) }}
+            {{ if $index }}, {{ end }}
+              <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}" style="margin-right: 0rem;">
+                {{- .Title -}}
+              </a>
+            {{ end }}
+          {{ end }}
+       </div>
      {{ end }}
 
      <!-- Categories -->

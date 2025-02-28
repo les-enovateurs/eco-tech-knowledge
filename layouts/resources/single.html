@@ -23,8 +23,9 @@
           <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
           <line x1="7" y1="7" x2="7.01" y2="7"/>
         </svg>
-          {{ range . }}
-            {{ with $.Site.GetPage (printf "/categories/%s" .) }}
+          {{ range $index, $element := . }}
+            {{ if $index }}, {{ end }}
+            {{ with $.Site.GetPage (printf "/categories/%s" $element) }}
             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
             {{ end }}
           {{ end }}
@@ -58,15 +59,10 @@
      <div class="metadata-item">
        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-       </svg>
-       Conducted by : 
-       {{ range . }}
-         {{ with $.Site.GetPage (printf "/organizations/%s" .) }}
-         <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}">
-          {{ .Title }}
-         </a>
-         {{ end }}
-       {{ end }}
+       </svg>Conducted by : 
+       <div>
+          {{ range $index, $element := . }}{{ with $.Site.GetPage (printf "/organizations/%s" $element) }}<a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}" style="margin-right: 0rem;">{{- .Title -}}</a>{{ if ne (add $index 1) (len $.Params.source_organizations) }}, {{ end }}{{ end }}{{ end }}
+       </div>
      </div>
      {{ end }}
 
@@ -142,9 +138,31 @@
     </div>
     {{ end }}
   </section>
+
+    <!-- Bouton Suggest Change -->
+    {{ if site.Params.editPost.URL }}
+    <div class="source-item suggest-change" style="border-top: 1px solid var(--border);">
+      <small class="edit-notice" style="margin-top: 1rem;">
+        Notice something missing or incorrect?<br>
+        <a href="{{ site.Params.editPost.URL }}/{{ .File.Path }}" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+          Suggest changes on GitHub
+        </a>
+      </small>
+    </div>
+    {{ end }}
 </article>
 
 <style>
+
+  .resource-single {
+    background-color: var(--entry);
+    padding: 2rem;
+    border-radius: 8px;
+  }
 
 
 .resource-header {
@@ -168,6 +186,29 @@
   gap: 0.5rem;
   color: var(--secondary);
   font-size: 0.9rem;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.metadata-item a {
+  display: inline-block;
+  padding: 0.2rem 0;
+  color: var(--secondary);
+  text-decoration: none;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+}
+
+.metadata-item a:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.metadata-item a:hover {
+  color: var(--primary);
+  text-decoration: underline;
 }
 
 .categories-list {
