@@ -76,6 +76,8 @@ params:
     Text: "Suggest Changes"
     appendFilePath: true 
 
+  ShowPageNums: true
+
   socialIcons: # optional
     - name: "mastodon"
       url: "https://mastodon.social/@enovateurs_media"

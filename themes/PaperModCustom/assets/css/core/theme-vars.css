@@ -6,17 +6,18 @@
     --header-height: 60px;
     --footer-height: 60px;
     --radius: 8px;
-    --theme: rgb(255, 255, 255);
+    --theme:  #f4e5d0;
     --entry: rgb(255, 255, 255);
-    --primary: rgb(30, 30, 30);
+    --primary: #433231;
     --secondary: rgb(108, 108, 108);
     --tertiary: rgb(214, 214, 214);
     --content: rgb(31, 31, 31);
     --code-block-bg: rgb(28, 29, 33);
-    --code-bg: rgb(245, 245, 245);
+    --code-bg:  #f4e5d0;
     --border: rgb(238, 238, 238);
-    --link-color: #2850a7;
+    --link-color: #d2402d;
     --hover-color: #000000;
+    --main-enov: #d2402d;
 }
 
 .dark {

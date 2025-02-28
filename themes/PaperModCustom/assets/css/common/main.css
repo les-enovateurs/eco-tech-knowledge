@@ -18,7 +18,9 @@
     color: var(--theme);
     font-size: 13px;
     line-height: 36px;
-    background: var(--primary);
+    border-style: solid;
+    border-color: var(--main-enov);
+    border-width: 1px;
     border-radius: calc(36px / 2);
     padding: 0 16px;
 }
