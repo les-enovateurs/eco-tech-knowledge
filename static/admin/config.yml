@@ -85,7 +85,7 @@ collections:
           label: "Resource type", 
           name: "resource_type", 
           widget: "select", 
-          options: ["research_paper", "study", "guide", "tool", "presentation"], 
+          options: ["research_paper", "report", "study", "guide", "tool", "presentation"],
           required: false
         }
       - {label: "Summary", name: "summary", widget: "markdown", required: true}

@@ -104,7 +104,7 @@
           {{ range $index, $element := . }}
             {{ with $.Site.GetPage (printf "/organizations/%s" $element) }}
             {{ if $index }}, {{ end }}
-              <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}" style="margin-right: 0rem;">
+              <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}/_index" style="margin-right: 0rem;">
                 {{- .Title -}}
               </a>
             {{ end }}
