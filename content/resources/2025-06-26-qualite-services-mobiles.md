@@ -1,5 +1,5 @@
 ---
-title: " Qualité des services mobiles en métropole"
+title: "Qualité des services mobiles en métropole"
 publication_date: 2025-06-26
 authors:
   - title: No author mentioned
