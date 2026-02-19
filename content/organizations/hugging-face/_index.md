@@ -1,4 +1,5 @@
 ---
 title: Hugging Face
-website: https://huggingface.co
+website: https://huggingface.co/
 ---
+
