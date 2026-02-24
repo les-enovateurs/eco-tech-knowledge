@@ -1,0 +1,1046 @@
+{{- define "main" }}
+
+<div class="insights-wrapper">
+  <article class="insights-page">
+    <header class="insights-header">
+      <div class="header-content">
+        <h1>{{ .Title }}</h1>
+        <p class="insights-subtitle">{{ .Params.description }}</p>
+      </div>
+    </header>
+
+    <!-- Filters Section -->
+    <section class="insights-filters">
+      <div class="filters-wrapper">
+        <!-- Type Tabs -->
+        <div class="filter-tabs">
+          <button class="tab-btn active" data-filter="type" data-value="all">
+            All
+          </button>
+          <button class="tab-btn" data-filter="type" data-value="statistic">
+            📊 Data
+          </button>
+          <button class="tab-btn" data-filter="type" data-value="quote">
+            💬 Voices
+          </button>
+        </div>
+
+        <!-- Category Select -->
+        <div class="filter-select-group">
+          <select id="categorySelect" class="filter-select">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+
+      <!-- Year Select -->
+      <div class="filter-select-group">
+        <select id="yearSelect" class="filter-select">
+          <option value="all">All Years</option>
+        </select>
+      </div>
+      </div>
+
+      <!-- Tag filters -->
+      <div id="tagFilters" class="tag-filters"></div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="insights-results">
+      <div class="insights-stats">
+        <span id="resultCount">0</span> <span id="resultLabel">insights</span>
+      </div>
+      <div id="insightsGrid" class="insights-grid"></div>
+    </section>
+  </article>
+</div>
+
+<script>
+// Raw data from Hugo
+const rawHighlights = [
+  {{ $comma := false }}
+  {{- range .Site.AllPages }}
+    {{- $currentPage := . }}
+    {{- with .Params.key_highlights }}
+      {{- range . }}
+        {{- if $comma }},{{ end }}
+        {
+          type: {{ .type | jsonify }},
+          label: {{ .label | jsonify }},
+          value: {{ .value | jsonify }},
+          unit: {{ .unit | jsonify }},
+          year: {{ .year }},
+          context: {{ .context | jsonify }},
+          page: {{ .page }},
+          section: {{ .section | jsonify }},
+          author: {{ .author | jsonify }},
+          role: {{ .role | jsonify }},
+          content: {{ .content | jsonify }},
+          tags: {{ .tags | jsonify }},
+          resourceTitle: {{ $currentPage.Title | jsonify }},
+          resourcePermalink: {{ $currentPage.RelPermalink | jsonify }},
+          categories: {{ with $currentPage.Params.categories }}{{ . | jsonify }}{{ else }}[]{{ end }},
+          publicationDate: {{ $currentPage.Params.publication_date | jsonify }},
+          resourceUrl: {{ $currentPage.Params.source_url | jsonify }}
+        }
+        {{- $comma = true }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+];
+
+// Helper to unquote strings
+const unquote = (str) => {
+  if (typeof str !== 'string') return str;
+  if (str.startsWith('"') && str.endsWith('"')) {
+    return str.slice(1, -1).replace(/\\"/g, '"');
+  }
+  return str;
+};
+
+// Check if value is null-like
+const isNullLike = (val) => {
+  if (val === null || val === undefined) return true;
+  if (typeof val === 'string') {
+    const unquoted = unquote(val).toLowerCase();
+    return unquoted === 'null' || unquoted === '';
+  }
+  return false;
+};
+
+// Clean category names
+const cleanCategoryName = (cat) => {
+  if (!cat) return cat;
+  cat = unquote(String(cat));
+  return cat.replace(/\/_index$/, '').replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+};
+
+// Parse tags
+const parseTags = (tags) => {
+  if (!tags) return [];
+  if (Array.isArray(tags)) return tags;
+  if (typeof tags === 'string') {
+    try {
+      const parsed = JSON.parse(tags);
+      return Array.isArray(parsed) ? parsed : [tags];
+    } catch (e) {
+      return [unquote(tags)];
+    }
+  }
+  return [];
+};
+
+// Parse categories
+const parseCategories = (cats) => {
+  if (!cats) return [];
+  if (Array.isArray(cats)) return cats.filter(c => c && !isNullLike(c));
+  if (typeof cats === 'string') {
+    const unquoted = unquote(cats);
+    if (isNullLike(unquoted)) return [];
+    try {
+      const parsed = JSON.parse(unquoted);
+      return Array.isArray(parsed) ? parsed.filter(c => c && !isNullLike(c)) : [unquoted];
+    } catch (e) {
+      return [unquoted];
+    }
+  }
+  return [];
+};
+
+// Process highlights
+const highlights = rawHighlights.length > 0 ? rawHighlights.map(h => {
+  const processed = {
+    type: unquote(h.type),
+    label: unquote(h.label),
+    value: unquote(h.value),
+    unit: unquote(h.unit),
+    year: h.year,
+    context: isNullLike(h.context) ? null : unquote(h.context),
+    page: h.page,
+    section: unquote(h.section),
+    author: isNullLike(h.author) ? null : unquote(h.author),
+    role: isNullLike(h.role) ? null : unquote(h.role),
+    content: isNullLike(h.content) ? null : unquote(h.content),
+    tags: parseTags(h.tags),
+    resourceTitle: unquote(h.resourceTitle),
+    resourcePermalink: unquote(h.resourcePermalink),
+    categories: parseCategories(h.categories).map(cat => ({
+      raw: cat,
+      display: cleanCategoryName(cat)
+    })),
+    publicationDate: unquote(h.publicationDate),
+    resourceUrl: unquote(h.resourceUrl)
+  };
+  return processed;
+}) : [];
+
+// Track active filters
+let activeYearFilter = null;
+let activeTagFilter = null;
+
+// Extract unique categories
+const getUniqueCategories = () => {
+  const categories = new Set();
+  highlights.forEach(h => {
+    if (h.categories && Array.isArray(h.categories)) {
+      h.categories.forEach(cat => {
+        if (cat && cat.display) {
+          categories.add(cat.display);
+        }
+      });
+    }
+  });
+  return Array.from(categories).sort();
+};
+
+// Extract unique years
+const getUniqueYears = () => {
+  const years = new Set();
+  highlights.forEach(h => {
+    if (h.year) {
+      years.add(h.year);
+    }
+  });
+  return Array.from(years).sort((a, b) => b - a);
+};
+
+// Extract unique tags
+const getUniqueTags = () => {
+  const tags = new Set();
+  highlights.forEach(h => {
+    if (h.tags && Array.isArray(h.tags)) {
+      h.tags.forEach(tag => {
+        if (tag && !isNullLike(tag)) {
+          tags.add(unquote(String(tag)));
+        }
+      });
+    }
+  });
+  return Array.from(tags).sort();
+};
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  const categories = getUniqueCategories();
+  const years = getUniqueYears();
+  const tags = getUniqueTags();
+  
+  const categorySelect = document.getElementById('categorySelect');
+  if (categorySelect) {
+    categories.forEach(cat => {
+      const option = document.createElement('option');
+      option.value = cat;
+      option.textContent = cat;
+      categorySelect.appendChild(option);
+    });
+    categorySelect.addEventListener('change', filterInsights);
+  }
+
+  const yearSelect = document.getElementById('yearSelect');
+  if (yearSelect) {
+    years.forEach(year => {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
+    });
+    yearSelect.addEventListener('change', function() {
+      activeYearFilter = this.value === 'all' ? null : this.value;
+      activeTagFilter = null;
+      filterInsights();
+    });
+  }
+
+  // Populate tag filters
+  const tagFiltersContainer = document.getElementById('tagFilters');
+  if (tagFiltersContainer && tags.length > 0) {
+    const maxVisibleTags = 10;
+    const hasMoreTags = tags.length > maxVisibleTags;
+    const visibleTags = tags.slice(0, maxVisibleTags);
+    const hiddenTags = hasMoreTags ? tags.slice(maxVisibleTags) : [];
+
+    tagFiltersContainer.innerHTML = `
+      <div class="tag-filters-label">Filter by Tags:</div>
+      <div class="tag-filters-wrapper">
+        <div class="tag-filters-list">
+          ${visibleTags.map(tag => `
+            <button class="tag-filter-btn" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>
+          `).join('')}
+          ${hasMoreTags ? hiddenTags.map(tag => `
+            <button class="tag-filter-btn tag-hidden" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>
+          `).join('') : ''}
+        </div>
+        ${hasMoreTags ? `
+          <button class="tag-toggle-btn" id="tagToggleBtn">
+            <span class="toggle-more">Show more (${hiddenTags.length})</span>
+            <span class="toggle-less" style="display: none;">Show less</span>
+          </button>
+        ` : ''}
+      </div>
+    `;
+
+    // Add toggle functionality
+    const toggleBtn = document.getElementById('tagToggleBtn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        const hiddenTags = tagFiltersContainer.querySelectorAll('.tag-hidden');
+        const moreSpan = this.querySelector('.toggle-more');
+        const lessSpan = this.querySelector('.toggle-less');
+        
+        hiddenTags.forEach(tag => {
+          if (tag.style.display === 'none' || !tag.style.display) {
+            tag.style.display = 'inline-block';
+          } else {
+            tag.style.display = 'none';
+          }
+        });
+
+        if (moreSpan.style.display === 'none') {
+          moreSpan.style.display = 'inline';
+          lessSpan.style.display = 'none';
+        } else {
+          moreSpan.style.display = 'none';
+          lessSpan.style.display = 'inline';
+        }
+      });
+    }
+
+    // Add click handlers to tag filter buttons
+    tagFiltersContainer.querySelectorAll('.tag-filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tag = this.dataset.tag;
+        if (activeTagFilter === tag) {
+          activeTagFilter = null;
+          this.classList.remove('active');
+        } else {
+          activeTagFilter = tag;
+          document.querySelectorAll('.tag-filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        }
+        activeYearFilter = null;
+        document.getElementById('yearSelect').value = 'all';
+        filterInsights();
+      });
+    });
+  }
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      activeYearFilter = null;
+      activeTagFilter = null;
+      document.getElementById('yearSelect').value = 'all';
+      document.querySelectorAll('.tag-filter-btn').forEach(b => b.classList.remove('active'));
+      filterInsights();
+    });
+  });
+
+  filterInsights();
+});
+
+function filterInsights() {
+  if (highlights.length === 0) {
+    document.getElementById('insightsGrid').innerHTML = '<div class="no-results"><p>No data</p></div>';
+    return;
+  }
+  
+  // Update tag filter buttons state
+  document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+    if (btn.dataset.tag === activeTagFilter) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  
+  const activeTab = document.querySelector('.tab-btn.active');
+  const typeFilter = activeTab ? activeTab.dataset.value : 'all';
+  const categorySelect = document.getElementById('categorySelect');
+  const categoryFilter = categorySelect ? categorySelect.value : 'all';
+
+  let filtered = highlights.filter(h => {
+    if (typeFilter !== 'all' && h.type !== typeFilter) return false;
+    if (categoryFilter !== 'all') {
+      if (!h.categories || h.categories.length === 0) return false;
+      if (!h.categories.some(cat => cat.display === categoryFilter)) return false;
+    }
+    if (activeYearFilter && h.year !== activeYearFilter) return false;
+    if (activeTagFilter && (!h.tags || !h.tags.includes(activeTagFilter))) return false;
+    return true;
+  });
+
+  filtered.sort((a, b) => {
+    const yearA = parseInt(a.year) || 0;
+    const yearB = parseInt(b.year) || 0;
+    if (yearB !== yearA) return yearB - yearA;
+    return a.type === b.type ? 0 : a.type === 'statistic' ? -1 : 1;
+  });
+
+  document.getElementById('resultCount').textContent = filtered.length;
+  document.getElementById('resultLabel').textContent = filtered.length === 1 ? 'insight' : 'insights';
+
+  const grid = document.getElementById('insightsGrid');
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="no-results"><p>No insights found</p></div>`;
+    return;
+  }
+
+  filtered.forEach((h) => {
+    const card = document.createElement('div');
+    card.className = `insight-card insight-${h.type}`;
+    
+    if (h.type === 'statistic') {
+      const validTags = h.tags ? h.tags.filter(tag => tag && !isNullLike(tag)) : [];
+      const tagsHtml = validTags.length > 0
+        ? `<div class="card-tags">${validTags.map(tag => {
+            const isActive = tag === activeTagFilter;
+            return `<span class="tag clickable-filter ${isActive ? 'active' : ''}" data-filter-tag="${escapeHtml(String(tag))}">${escapeHtml(String(tag))}</span>`;
+          }).join('')}</div>`
+        : '';
+
+      card.innerHTML = `
+        <div class="card-header">
+          <span class="card-badge">Data</span>
+          <div class="card-year">${h.year || ''}</div>
+        </div>
+        <div class="stat-display">
+          <div class="stat-value">${escapeHtml(String(h.value || ''))}</div>
+          ${(h.unit && !isNullLike(h.unit)) ? `<div class="stat-unit">${escapeHtml(String(h.unit))}</div>` : ''}
+        </div>
+        <h3 class="card-title">${escapeHtml(String(h.label || ''))}</h3>
+        ${h.context ? `<p class="card-description">${escapeHtml(String(h.context))}</p>` : ''}
+        ${tagsHtml}
+        <div class="card-footer">
+          <a href="${escapeHtml(String(h.resourcePermalink || '#'))}" class="card-source-link">
+            ${escapeHtml(String(h.resourceTitle || 'Source'))}
+          </a>
+        </div>
+      `;
+    } else if (h.type === 'quote') {
+      const validTags = h.tags ? h.tags.filter(tag => tag && !isNullLike(tag)) : [];
+      const tagsHtml = validTags.length > 0
+        ? `<div class="card-tags">${validTags.map(tag => {
+            const isActive = tag === activeTagFilter;
+            return `<span class="tag clickable-filter ${isActive ? 'active' : ''}" data-filter-tag="${escapeHtml(String(tag))}">${escapeHtml(String(tag))}</span>`;
+          }).join('')}</div>`
+        : '';
+
+      card.innerHTML = `
+        <div class="card-header">
+          <span class="card-badge">Voice</span>
+          <div class="card-year">${h.year || ''}</div>
+        </div>
+        <blockquote class="quote-text">"${escapeHtml(String(h.content || ''))}"</blockquote>
+        ${(h.author || h.role) ? `
+          <div class="quote-attribution">
+            ${h.author ? `<strong class="quote-author">${escapeHtml(String(h.author))}</strong>` : ''}
+            ${h.role ? `<span class="quote-role">${escapeHtml(String(h.role))}</span>` : ''}
+          </div>
+        ` : ''}
+        ${h.context ? `<p class="card-description">${escapeHtml(String(h.context))}</p>` : ''}
+        ${tagsHtml}
+        <div class="card-footer">
+          <a href="${escapeHtml(String(h.resourcePermalink || '#'))}" class="card-source-link">
+            ${escapeHtml(String(h.resourceTitle || 'Source'))}
+          </a>
+        </div>
+      `;
+    }
+
+    grid.appendChild(card);
+  });
+
+  // Add click handlers to tags
+  document.querySelectorAll('.clickable-filter[data-filter-tag]').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      const tag = this.dataset.filterTag;
+      activeTagFilter = activeTagFilter === tag ? null : tag;
+      activeYearFilter = null;
+      document.getElementById('yearSelect').value = 'all';
+      
+      // Update top filter buttons
+      document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+        if (btn.dataset.tag === tag && activeTagFilter) {
+          btn.classList.add('active');
+          
+          // Show hidden tag if needed
+          if (btn.classList.contains('tag-hidden') && btn.style.display === 'none') {
+            const toggleBtn = document.getElementById('tagToggleBtn');
+            if (toggleBtn) {
+              const moreSpan = toggleBtn.querySelector('.toggle-more');
+              const lessSpan = toggleBtn.querySelector('.toggle-less');
+              document.querySelectorAll('.tag-hidden').forEach(t => t.style.display = 'inline-block');
+              moreSpan.style.display = 'none';
+              lessSpan.style.display = 'inline';
+            }
+          }
+          
+          // Scroll to button
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      
+      filterInsights();
+    });
+  });
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+</script>
+
+<style>
+  .insights-wrapper {
+    background: linear-gradient(135deg, var(--entry) 0%, var(--code-bg) 100%);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .insights-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* ===== HEADER ===== */
+  .insights-header {
+    margin-bottom: 4rem;
+  }
+
+  .header-content h1 {
+    margin: 0 0 1rem 0;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--entry-text) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .insights-subtitle {
+    color: var(--secondary);
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  /* ===== FILTERS ===== */
+  .insights-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3.5rem;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 1.75rem 2rem;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .filters-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  /* Type Tabs */
+  .filter-tabs {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .tab-btn {
+    padding: 0.7rem 1.4rem;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--secondary);
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tab-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--primary);
+    z-index: -1;
+    transition: left 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+
+  .tab-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Category Select */
+  .filter-select-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .filter-select {
+    padding: 0.7rem 1.2rem;
+    background: var(--code-bg);
+    border: 1.5px solid var(--border);
+    color: var(--entry-text);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-weight: 500;
+    min-width: 220px;
+  }
+
+  .filter-select:hover {
+    border-color: var(--primary);
+    background: var(--entry);
+  }
+
+  .filter-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Results Stats */
+  .insights-stats {
+    color: var(--secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .insights-stats span:first-child {
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  /* Tag Filters */
+  .tag-filters {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .tag-filters-label {
+    color: var(--secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    padding-top: 0.4rem;
+  }
+
+  .tag-filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .tag-filters-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .tag-hidden {
+    display: none;
+  }
+
+  .tag-filter-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--secondary);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+
+  .tag-filter-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  .tag-filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .tag-toggle-btn {
+    align-self: flex-start;
+    padding: 0.4rem 1rem;
+    background: transparent;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    color: var(--secondary);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+
+  .tag-toggle-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  /* ===== GRID ===== */
+  .insights-container {
+    width: 100%;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+
+  /* ===== CARD BASE ===== */
+  .insight-card {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  .insight-statistic {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.05) 0%, rgba(46, 204, 113, 0.02) 100%);
+  }
+
+  .insight-quote {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(52, 152, 219, 0.02) 100%);
+  }
+
+  /* Card Header */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+
+  .card-badge {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    background: var(--primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+  }
+
+  .card-year {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.05rem;
+    margin-left: auto;
+  }
+
+  /* ===== STATISTICS CARD ===== */
+  .stat-display {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -1px;
+    white-space: nowrap;
+  }
+
+  .stat-unit {
+    font-size: 1rem;
+    color: var(--secondary);
+    font-weight: 600;
+  }
+
+  .card-title {
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--entry-text);
+    line-height: 1.5;
+  }
+
+  .card-description {
+    font-size: 0.95rem;
+    color: var(--secondary);
+    margin: 0 0 1rem 0;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  /* ===== QUOTE CARD ===== */
+  .quote-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--entry-text);
+    margin: 0 0 1.25rem 0;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .quote-attribution {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .quote-author {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .quote-role {
+    color: var(--secondary);
+    font-size: 0.85rem;
+  }
+
+  /* ===== TAGS ===== */
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--secondary);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .clickable-filter {
+    cursor: pointer;
+  }
+
+  .tag.clickable-filter:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  .tag.active {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-year.clickable-filter:hover {
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  /* ===== FOOTER ===== */
+  .card-footer {
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+
+  .card-source-link {
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-block;
+  }
+
+  .card-source-link:hover {
+    color: var(--entry-text);
+    text-decoration: underline;
+  }
+
+  /* ===== NO RESULTS ===== */
+  .no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--secondary);
+  }
+
+  .no-results p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .insights-page {
+      padding: 3rem 1.5rem;
+    }
+
+    .header-content h1 {
+      font-size: 2.2rem;
+    }
+
+    .insights-filters {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+    }
+
+    .filters-wrapper {
+      flex-direction: column;
+    }
+
+    .filter-tabs {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .filter-select-group {
+      width: 100%;
+    }
+
+    .filter-select {
+      width: 100%;
+    }
+
+    .insights-stats {
+      width: 100%;
+      text-align: center;
+    }
+
+    .insights-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .insights-page {
+      padding: 2rem 1rem;
+    }
+
+    .header-content h1 {
+      font-size: 1.75rem;
+    }
+
+    .insights-header {
+      margin-bottom: 2rem;
+    }
+
+    .insights-filters {
+      padding: 1.25rem 1rem;
+    }
+
+    .filter-tabs {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .insight-card {
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+    }
+
+    .quote-text {
+      font-size: 0.95rem;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .card-year {
+      margin-left: 0;
+    }
+  }
+</style>
+
+{{- end }}

@@ -32,6 +32,9 @@ menus:
     - name: "Resources"
       pageRef: "/resources"
       weight: 20
+    - name: "Insights"
+      pageRef: "/insights"
+      weight: 25
     - name: "Search"
       url: "/search"
       weight: 30
@@ -69,7 +72,7 @@ params:
     distance: 1000
     threshold: 0.4
     minMatchCharLength: 0
-    keys: ["title", "permalink", "summary", "content"]
+    keys: ["title", "permalink", "summary", "content", "label", "author", "value"]
   
   editPost:
     URL: "https://github.com/les-enovateurs/eco-tech-knowledge/tree/main/content"

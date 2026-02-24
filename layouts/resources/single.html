@@ -113,6 +113,58 @@
     </div>
   </section>
 
+  <!-- Key Highlights (Statistics & Quotes) -->
+  {{ with .Params.key_highlights }}
+  <section class="resource-highlights">
+    <h2>Key Highlights</h2>
+    <div class="highlights-flow">
+      {{ range . }}
+        {{ if eq .type "statistic" }}
+          <!-- Statistic Inline -->
+          <div class="stat-inline">
+            <div class="stat-core">
+              <span class="stat-value">{{ .value }}</span>{{ with .unit }}<span class="stat-unit">{{ . }}</span>{{ end }}
+            </div>
+            <p class="stat-label">{{ .label }}</p>
+            {{ with .context }}<p class="stat-context">{{ . }}</p>{{ end }}
+            {{ if or .page .section .year }}
+            <div class="stat-meta">
+              {{ if .page }}p.{{ .page }}{{ end }}
+              {{ if and .page .section }} · {{ end }}
+              {{ if .section }}{{ .section }}{{ end }}
+              {{ if .year }} · {{ .year }}{{ end }}
+            </div>
+            {{ end }}
+          </div>
+        {{ else if eq .type "quote" }}
+          <!-- Quote Inline -->
+          <div class="quote-inline">
+            <div class="quote-mark">"</div>
+            <div class="quote-body">
+              <p class="quote-text">{{ .content }}</p>
+              {{ if or .author .role }}
+              <div class="quote-attribution">
+                {{ with .author }}<span class="quote-author">{{ . }}</span>{{ end }}
+                {{ with .role }}<span class="quote-role">{{ . }}</span>{{ end }}
+              </div>
+              {{ end }}
+              {{ if or .context .page .section }}
+              <div class="quote-meta">
+                {{ with .context }}<span>{{ . }}</span>{{ end }}
+                {{ if and .context (or .page .section) }} · {{ end }}
+                {{ if .page }}p.{{ .page }}{{ end }}
+                {{ if and .page .section }} · {{ end }}
+                {{ if .section }}{{ .section }}{{ end }}
+              </div>
+              {{ end }}
+            </div>
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
   <!-- Sources -->
   <section class="resource-sources">
     <h2>Sources</h2>
@@ -276,6 +328,199 @@
   border-top: 1px solid var(--border);
   padding-top: 1rem;
   margin-top: 2rem;
+}
+
+.resource-highlights {
+  margin: 3rem 0;
+}
+
+.highlights-flow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* STATISTIC INLINE DESIGN */
+.stat-inline {
+  position: relative;
+  padding: 2rem;
+  background: linear-gradient(135deg, 
+    rgba(46, 204, 113, 0.03) 0%, 
+    rgba(46, 204, 113, 0.08) 100%);
+  border-radius: 0;
+}
+
+.stat-inline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+.stat-core {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.stat-value {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  color: var(--primary);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stat-unit {
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.stat-context {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--secondary);
+  margin: 0.75rem 0 0 0;
+  max-width: 65ch;
+}
+
+.stat-meta {
+  margin-top: 1.25rem;
+  font-size: 0.75rem;
+  color: var(--secondary);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* QUOTE INLINE DESIGN */
+.quote-inline {
+  position: relative;
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem 2rem 2rem 0;
+  background: linear-gradient(135deg, 
+    rgba(52, 152, 219, 0.02) 0%, 
+    rgba(52, 152, 219, 0.06) 100%);
+}
+
+.quote-inline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+.quote-mark {
+  font-size: clamp(4rem, 10vw, 6rem);
+  line-height: 0.7;
+  font-weight: 700;
+  color: #3498db;
+  opacity: 0.3;
+  font-family: Georgia, serif;
+  flex-shrink: 0;
+  user-select: none;
+  margin-top: -0.5rem;
+}
+
+.quote-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.quote-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--entry-text);
+  margin: 0 0 1rem 0;
+  font-weight: 400;
+  max-width: 70ch;
+}
+
+.quote-attribution {
+  margin: 1rem 0 0.5rem 0;
+  font-size: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quote-author {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.quote-role {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+.quote-author::after {
+  content: '—';
+  margin: 0 0.5rem;
+  color: var(--secondary);
+  opacity: 0.5;
+}
+
+.quote-meta {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--secondary);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* RESPONSIVE ADAPTATIONS */
+@media (max-width: 768px) {
+  .highlights-flow {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .stat-inline,
+  .quote-inline {
+    padding: 1.5rem 1rem;
+  }
+  
+  .quote-inline {
+    gap: 1rem;
+  }
+  
+  .quote-mark {
+    font-size: 3rem;
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+  }
+  
+  .quote-text {
+    font-size: 1rem;
+  }
 }
 
 .source-item {
