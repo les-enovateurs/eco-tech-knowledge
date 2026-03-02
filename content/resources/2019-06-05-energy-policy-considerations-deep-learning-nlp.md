@@ -1,4 +1,4 @@
- ---
+---
 title: Energy and Policy Considerations for Deep Learning in NLP
 publication_date: 2019-06-05
 authors:
