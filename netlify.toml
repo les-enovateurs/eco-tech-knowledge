@@ -1,6 +1,0 @@
-[build]
-  command = "HUGO_BASEURL=https://knowledge.les-enovateurs.com/ HUGO_ENV=production hugo --gc --minify"
-  publish = "public"
-
-[build.environment]
-HUGO_VERSION = "0.144.2"
