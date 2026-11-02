@@ -6,10 +6,6 @@
     "build": "HUGO_BASEURL=http://localhost:1313/ hugo --gc --minify"
   },
   "dependencies": {
-    "@netlify/functions": "^2.0.0",
     "js-yaml": "^4.1.0"
-  },
-  "devDependencies": {
-    "netlify-cli": "^12.0.0"
   }
-} 
+}
