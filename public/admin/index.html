@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Knowledge Hub - Administration</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      // Initialize Netlify Identity
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
+    <meta name="robots" content="noindex" />
+    <title>Contribute - Eco Tech Knowledge</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 36rem; margin: 15vh auto; padding: 0 1rem; line-height: 1.6; color: #1d1e20; background: #fff; }
+      a { color: #1d1e20; }
+    </style>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <h1>Want to contribute?</h1>
+    <p>We'd love to hear about studies and resources on digital sustainability.
+      <a href="https://les-enovateurs.com/contactez-nous">Contact us</a>
+      or open an issue or pull request on
+      <a href="https://github.com/les-enovateurs/eco-tech-knowledge">GitHub</a>.</p>
+    <p><a href="/">← Back to Eco Tech Knowledge</a></p>
   </body>
-</html> 
+</html>

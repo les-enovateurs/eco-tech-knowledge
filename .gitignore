@@ -10,3 +10,4 @@ public/
 .hugo_build.lock
 PaperMod/
 PaperMod.zip
+.wrangler
