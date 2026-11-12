@@ -1,5 +1,5 @@
 baseURL: "/"
-languageCode: "en-us"
+locale: "en-us"
 title: "Eco Tech Knowledge"
 enableRobotsTXT: true
 
@@ -14,6 +14,11 @@ outputs:
     - HTML
     - RSS
     - JSON
+  # Pas de flux RSS par tag/organisation/catégorie : ~270 index.xml « explorés, non indexés » dans GSC.
+  taxonomy:
+    - HTML
+  term:
+    - HTML
 
 taxonomies:
   category: "categories"
@@ -21,7 +26,6 @@ taxonomies:
   organization: "organizations"
   resource_type: "resource_types"
   author: "authors"
-  source_organization: "source_organizations"
   language: "languages"
 
 menus:

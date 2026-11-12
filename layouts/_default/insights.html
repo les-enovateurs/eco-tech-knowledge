@@ -58,7 +58,7 @@
 // Raw data from Hugo
 const rawHighlights = [
   {{ $comma := false }}
-  {{- range .Site.AllPages }}
+  {{- range .Site.Pages }}
     {{- $currentPage := . }}
     {{- with .Params.key_highlights }}
       {{- range . }}
