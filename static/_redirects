@@ -1,0 +1,7 @@
+# Anciennes pages de la taxonomie source_organizations, fusionnées dans /organizations/<slug>/.
+/source_organizations/:org/_index/ /organizations/:org/ 301
+/source_organizations/:org/_index /organizations/:org/ 301
+/source_organizations/:org//_index /organizations/:org/ 301
+/source_organizations/* /organizations/ 301
+# Fiche mal nommée (region-nouvelle-aquitaine.md au lieu de _index.md).
+/organizations/region-nouvelle-aquitaine/region-nouvelle-aquitaine/ /organizations/region-nouvelle-aquitaine/ 301

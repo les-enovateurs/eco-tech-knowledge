@@ -20,7 +20,7 @@ jobs:
 
       - uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: "0.144.2"
+          hugo-version: "0.167.0"
           extended: true
 
       - run: hugo --gc --minify -b https://knowledge.les-enovateurs.com/

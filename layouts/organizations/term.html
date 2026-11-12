@@ -8,9 +8,7 @@
 <header class="page-header">
     {{- partial "breadcrumbs.html" . }}
     <h1>
-        {{ with $.Site.GetPage (printf "/organizations/%s"  (replace .RelPermalink "/source_organizations/" "")) }}
-            {{- .Title -}}
-        {{ end }}
+        {{- .Title -}}
         {{- if and (or (eq .Kind `term`) (eq .Kind `section`)) (.Param "ShowRssButtonInSectionTermList") }}
         {{- with .OutputFormats.Get "rss" }}
         <a href="{{ .RelPermalink }}" title="RSS" aria-label="RSS">
@@ -40,7 +38,8 @@
 </div>
 {{- end }}
 
-{{- $pages := union .RegularPages .Sections }}
+{{- /* Ressources menées par l'organisation : le front matter stocke "<slug>/_index". */}}
+{{- $pages := where site.RegularPages "Params.source_organizations" "intersect" (slice (printf "%s/_index" (path.Base .RelPermalink))) }}
 
 {{- if .IsHome }}
 {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
@@ -106,7 +105,7 @@
                 {{ range $index, $element := . }}
                 {{ with $.Site.GetPage (printf "/organizations/%s" $element) }}
                 {{ if $index }}, {{ end }}
-                <a href="{{ replace .RelPermalink "/organizations/" "/source_organizations/" }}/_index" style="margin-right: 0rem;">
+                <a href="{{ .RelPermalink }}" style="margin-right: 0rem;">
                 {{- .Title -}}
                 </a>
                 {{ end }}
